@@ -4,11 +4,11 @@
   "scripts": {
     "test": "node tests.js"
   },
-  "author": "Ian coleman",
-  "description": "Tests for BIP39 tool",
+  "author": "Ian Coleman + Jonathan Vaage",
+  "description": "Tests for Shamir32 tool",
   "repository": {
     "type": "git",
-    "url": "git://github.com/iancoleman/bip39.git"
+    "url": "git://github.com/jonvaage/shamir32.git"
   },
   "dependencies": {
     "selenium-webdriver": "^3.6.0"
