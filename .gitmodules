@@ -1,0 +1,3 @@
+[submodule "src/js/ssss-js"]
+	path = src/js/ssss-js
+	url = git@github.com:gburca/ssss-js.git
