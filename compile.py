@@ -2,8 +2,13 @@ import os
 import re
 import datetime
 from io import open
+from subprocess import call
 
 # This script generates the shamir32-standalone.html file.
+
+# Compile ssss-js submodule.
+
+call(["./src/js/ssss-js/node_modules/browserify/bin/cmd.js", "./src/js/ssss-js/ssss.js", "--standalone", "ssss", "-o", "./src/js/ssss.js"])
 
 # It removes script and style tags and replaces with the file content.
 
