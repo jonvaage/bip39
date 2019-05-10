@@ -183,6 +183,80 @@
                                 <textarea id="seed" class="seed private-data form-control" readonly="readonly" data-show-qr></textarea>
                             </div>
                         </div>
+<!-- START: SSSS-Split -->
+                        <form>
+                          <table align="center">
+                            <tr>
+                              <td align="center">
+                                Threshold:<br/>
+                                <input type="number" id="threshold" size="2" maxlength="2" value="3">
+                              </td>
+                              <td align="center">
+                                Shares:<br/>
+                                <input type="number" id="numShares" size="2" maxlength="2" value="6">
+                              </td>
+                              <td>
+                                Token (optional):<br/>
+                                <input type="text" id="token">
+                              </td>
+                            </tr>
+                            <!--
+                            <tr>
+                              <td colspan="2" align="center">
+                                Secret: <input type="text" id="secret" size="30"><br/>
+                              </td>
+                              <td align="center">
+                                Hex input: <input type="checkbox" id="hexInput"><br/>
+                              </td>
+                            </tr>
+                            -->
+                            <tr>
+                              <td colspan="3" align="center">
+                                <!-- <input type="button" onclick="generateKeys()" value="Generate Keys"> -->
+                                <button class="btn generate-fragments">Generate Fragments</button>
+                              </td>
+                            </tr>
+                            <tr><td colspan="3">Generated keys:</div></td></tr>
+                            <tr>
+                              <td colspan="3">
+                                <pre><textarea id="generatedKeys" rows="10" cols="70" readonly></textarea></pre>
+                              </td>
+                            </tr>
+                            <!-- <tr><td colspan="3"><div id="splitLog"></div></td></tr> -->
+                          </table>
+                        </form>
+<!-- END: SSSS-Split -->
+<!-- START: SSSS-Combine -->
+                        <form>
+                          <table align="center">
+                            <tr>
+                              <td>
+                                Enter the keys here, one per line:<br/>
+                                <pre><textarea id="keys" rows="10" cols="70"></textarea></pre>
+                              </td>
+                            </tr>
+                            <!--
+                            <tr>
+                              <td align="center">
+                                Hex output: <input type="checkbox" id="hexOutput"><br/>
+                              </td>
+                            </tr>
+                            -->
+                            <tr>
+                              <td align="center">
+                                <!-- <input type="button" onclick="combineKeys()" value="Combine Keys"> -->
+                                <button class="btn combine-fragments">Combine Fragments</button>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="center">
+                                Secret: <input type="text" id="combined" size="30" readonly><br/>
+                              </td>
+                            </tr>
+                            <!-- <tr><td colspan="3"><div id="combineLog"></div></td></tr> -->
+                          </table>
+                        </form>
+<!-- END: SSSS-Combine -->
                         <div class="form-group">
                             <label for="network-phrase" class="col-sm-2 control-label">Coin</label>
                             <div class="col-sm-10">

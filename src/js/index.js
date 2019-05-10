@@ -48,6 +48,8 @@
     DOM.generateContainer = $(".generate-container");
     DOM.generate = $(".generate");
     DOM.seed = $(".seed");
+    DOM.generateFragments = $(".generate-fragments"); /* Shamir32 */
+    DOM.combineFragments = $(".combine-fragments"); /* Shamir32 */
     DOM.rootKey = $(".root-key");
     DOM.litecoinLtubContainer = $(".litecoin-ltub-container");
     DOM.litecoinUseLtub = $(".litecoin-use-ltub");
@@ -129,6 +131,8 @@
         DOM.phrase.on("input", delayedPhraseChanged);
         DOM.passphrase.on("input", delayedPhraseChanged);
         DOM.generate.on("click", generateClicked);
+        DOM.generateFragments.on("click",generateKeys); /* Shamir32 */
+        DOM.combineFragments.on("click",combineKeys); /* Shamir32 */
         DOM.more.on("click", showMore);
         DOM.rootKey.on("input", delayedRootKeyChanged);
         DOM.litecoinUseLtub.on("change", litecoinUseLtubChanged);
@@ -2781,6 +2785,88 @@
             },
         }
     ]
+
+    
+    /* Shamir32 */
+
+    function logTo(elem) {
+        ['log','debug','info','warn','error'].forEach(function (verb) {
+            var orig = "orig_" + verb;
+            console[orig] = console[verb];
+            console[verb] = (function (method, verb, elem) {
+                return function () {
+                    method.apply(console, arguments);
+                    var msg = document.createElement('div');
+                    msg.classList.add("log_" + verb);
+                    msg.textContent = verb + ': ' + Array.prototype.slice.call(arguments).join(' ');
+                    elem.appendChild(msg);
+                };
+            })(console[verb], verb, elem);
+        });
+    }
+    
+    function logRestore() {
+        ['log','debug','info','warn','error'].forEach(function (verb) {
+            var orig = "orig_" + verb;
+            console[verb] = console[orig];
+        });
+    }
+    
+    function clearLogs(id) {
+        var node = document.querySelector(id);
+        while (node.hasChildNodes()) {
+            node.removeChild(node.lastChild);
+        }
+    }
+    
+    function generateKeys() {
+        //clearLogs('#splitLog');
+        //logTo(document.querySelector('#splitLog'));
+        var threshold = document.getElementById("threshold").value;
+        var numShares = document.getElementById("numShares").value;
+        var token     = document.getElementById("token").value.trim();
+        var secret    = seed; // document.getElementById("secret").value;
+        var hexInput  = true; // document.getElementById("hexInput").checked;
+        try {
+            var elem = document.getElementById("generatedKeys");
+            /* var elem2 = document.getElementById("keys"); */
+            elem.value = "";
+            /* elem2.value = ""; */
+            var s = new ssss.SSSS(parseInt(threshold), parseInt(numShares), hexInput);
+            var keys = s.split(secret, token);
+            elem.value = keys.join("\n");
+            /* elem2.value = keys.slice(0, threshold).join("\n"); */
+        } catch (e) {
+            console.error(e);
+        } finally {
+            // logRestore();
+        }
+    }
+    
+    function combineKeys() {
+        // clearLogs('#combineLog');
+        // logTo(document.querySelector('#combineLog'));
+        try {
+            var hexOutput  = true; //document.getElementById("hexOutput").checked;
+            document.getElementById("combined").value = "";
+            var keyTxt = document.getElementById("keys").value;
+            var keys = keyTxt.split("\n").filter(function(key) {
+                return key.length > 2;
+            });
+            var s = new ssss.SSSS(keys.length, 0, hexOutput);
+            var secret = s.combine(keys);
+            document.getElementById("combined").value = secret;
+            seed = secret;
+            bip32RootKey = bitcoinjs.bitcoin.HDNode.fromSeedHex(seed, network);
+            calcForDerivationPath();
+        } catch (e) {
+            console.error(e);
+        } finally {
+            // logRestore();
+        }
+    }
+
+    /* Initialize */
 
     init();
 
